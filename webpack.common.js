@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const config = {
     entry: {
-        app: ['./src/App.tsx'],
+        app: ['./src/app.tsx'],
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -19,23 +19,16 @@ const config = {
             { test: /\.(ts|tsx)$/, loader: 'ts-loader' },
             { test: /\.js$/, enforce: 'pre', loader: 'source-map-loader' },
             {
+                test: /\.global\.css$/,
+                use: [{ loader: 'style-loader' }, { loader: 'css-loader', options: { sourceMap: true } }],
+            },
+            {
                 test: /\.less$/,
                 use: [
-                    {
-                        loader: 'style-loader',
-                    },
-                    {
-                        loader: '@teamsupercell/typings-for-css-modules-loader',
-                        options: { formatter: 'prettier' },
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: { modules: { localIdentName: '[path][name]__[local]' }, sourceMap: true },
-                    },
-                    {
-                        loader: 'less-loader',
-                        options: { modules: true, sourceMap: true },
-                    },
+                    { loader: 'style-loader' },
+                    { loader: '@teamsupercell/typings-for-css-modules-loader', options: { formatter: 'prettier' } },
+                    { loader: 'css-loader', options: { modules: { localIdentName: '[path][name]__[local]' }, sourceMap: true } },
+                    { loader: 'less-loader', options: { modules: true, sourceMap: true } },
                 ],
             },
             {
@@ -47,12 +40,7 @@ const config = {
             },
         ],
     },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: path.resolve(__dirname, 'src', 'index.html'),
-        }),
-        new CleanWebpackPlugin(),
-    ],
+    plugins: [new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src', 'index.html') }), new CleanWebpackPlugin()],
 };
 
 module.exports = config;

@@ -1,0 +1,24 @@
+@import '../theme.less';
+
+.errorBoundary {
+    max-width: 100%;
+    overflow: auto;
+
+    .contentWrapper;
+
+    .errorTitle {
+        font-size: 1.5rem;
+        margin-bottom: @mediumMargin;
+    }
+
+    .errorContent {
+        padding: @mediumPadding;
+        border: 1px solid @warningColor;
+
+        pre {
+            max-width: 100%;
+            white-space: normal;
+            overflow: auto;
+        }
+    }
+}
