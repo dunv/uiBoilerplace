@@ -1,15 +1,10 @@
-const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpackVariables = require('./webpack.variables');
 
 const config = {
     entry: {
         app: ['./src/app.tsx'],
-    },
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'js/[name].[hash].bundle.js',
-        publicPath: '/',
     },
     resolve: {
         extensions: ['.js', '.jsx', '.json', '.ts', '.tsx', '.less', '.css'],
@@ -19,19 +14,6 @@ const config = {
             { test: /\.(ts|tsx)$/, loader: 'ts-loader' },
             { test: /\.js$/, enforce: 'pre', loader: 'source-map-loader' },
             {
-                test: /\.global\.css$/,
-                use: [{ loader: 'style-loader' }, { loader: 'css-loader', options: { sourceMap: true } }],
-            },
-            {
-                test: /\.less$/,
-                use: [
-                    { loader: 'style-loader' },
-                    { loader: '@teamsupercell/typings-for-css-modules-loader', options: { formatter: 'prettier' } },
-                    { loader: 'css-loader', options: { modules: { localIdentName: '[path][name]__[local]' }, sourceMap: true } },
-                    { loader: 'less-loader', options: { modules: true, sourceMap: true } },
-                ],
-            },
-            {
                 test: /\.(png|jpe?g|gif|svg|eot|ttf|woff|woff2)$/i,
                 loader: 'url-loader',
                 options: {
@@ -40,7 +22,17 @@ const config = {
             },
         ],
     },
-    plugins: [new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'src', 'index.html') }), new CleanWebpackPlugin()],
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            meta: {
+                viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no',
+                'apple-mobile-web-app-capable': 'yes',
+            },
+            title: webpackVariables?.appTitle || 'PLEASE DEFINE TITLE IN webpack.variabes.js',
+        }),
+        new CleanWebpackPlugin(),
+    ],
 };
 
 module.exports = config;

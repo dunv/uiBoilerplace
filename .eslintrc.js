@@ -12,6 +12,7 @@ module.exports = {
         // e.g. "@typescript-eslint/explicit-function-return-type": "off",
         '@typescript-eslint/explicit-function-return-type': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/no-var-requires': 'off', // Problem for webpack.config
         'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
         'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
     },

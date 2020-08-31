@@ -1,10 +1,12 @@
+import { apiRequest, ConnectToAuthProps, logout, renewRefreshToken } from 'dunv-tsauth';
+import { parseParams } from 'dunv-tslocation';
 import * as React from 'react';
-import { logout, renewRefreshToken, ConnectToAuthProps, apiRequest } from 'dunv-tsauth';
-import { LocationStore } from 'dunv-tslocation';
+import { useHistory } from 'react-router-dom';
 import { marginTop } from './protected.less';
 
 export const Protected: React.FC<any> = (props: ConnectToAuthProps) => {
     const [fetchedData, setFetchedData] = React.useState({});
+    const history = useHistory();
 
     const handleLogout: React.ReactEventHandler = () => {
         logout();
@@ -36,9 +38,9 @@ export const Protected: React.FC<any> = (props: ConnectToAuthProps) => {
             <br />
             <br />
             <div>Location</div>
-            <pre>{JSON.stringify(LocationStore.get().props)}</pre>
+            <pre>{JSON.stringify(parseParams(history.location.search))}</pre>
             <div>
-                <button onClick={() => LocationStore.get().setPath('/')}>back</button>
+                <button onClick={() => history.push('/')}>back</button>
             </div>
         </React.Fragment>
     );

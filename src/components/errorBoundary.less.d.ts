@@ -1,4 +1,4 @@
-declare namespace ErrorBoundaryLessModule {
+declare namespace ErrorBoundaryLessNamespace {
     export interface IErrorBoundaryLess {
         contentWrapper: string;
         errorBoundary: string;
@@ -7,9 +7,9 @@ declare namespace ErrorBoundaryLessModule {
     }
 }
 
-declare const ErrorBoundaryLessModule: ErrorBoundaryLessModule.IErrorBoundaryLess & {
+declare const ErrorBoundaryLessModule: ErrorBoundaryLessNamespace.IErrorBoundaryLess & {
     /** WARNING: Only available when `css-loader` is used without `style-loader` or `mini-css-extract-plugin` */
-    locals: ErrorBoundaryLessModule.IErrorBoundaryLess;
+    locals: ErrorBoundaryLessNamespace.IErrorBoundaryLess;
 };
 
 export = ErrorBoundaryLessModule;

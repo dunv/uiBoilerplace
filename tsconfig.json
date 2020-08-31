@@ -1,16 +1,18 @@
 {
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "jsx": "react",
-        "module": "commonjs",
         "noImplicitAny": true,
-        "outDir": "./build/",
         "strict": true,
-        "preserveConstEnums": true,
-        "removeComments": true,
+        "preserveConstEnums": false,
+        "removeComments": true, // for code-splitting
         "sourceMap": true,
-        "target": "es6",
-        "experimentalDecorators": true
+        "target": "es6", // required for treeShaking (smaller package)
+        "module": "esnext", // required for treeShaking (smaller package)
+        "moduleResolution": "node", // required for treeShaking (smaller package)
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "importHelpers": true
     },
-    "include": ["./src/**/*", "src"]
+    "include": ["./src/**/*", "src"],
+    "exclude": ["node_modules", "./src/**/*.less.d.ts"]
 }

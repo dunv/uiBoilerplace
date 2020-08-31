@@ -1,14 +1,15 @@
-import * as React from 'react';
 import { login } from 'dunv-tsauth';
+import * as React from 'react';
+import { useHistory } from 'react-router-dom';
 import { warningColor } from './login.less';
-import { LocationStore } from 'dunv-tslocation';
 
 export const Login: React.FC = () => {
     const [input, setInput] = React.useState({ user: '', password: '' });
     const [isLoading, setIsLoading] = React.useState(false);
     const [loginError, setLoginError] = React.useState('');
+    const history = useHistory();
 
-    const handleLogin: React.ReactEventHandler = async e => {
+    const handleLogin: React.ReactEventHandler = async (e) => {
         e.preventDefault();
         const { user, password } = input;
         if (user && password) {
@@ -16,13 +17,14 @@ export const Login: React.FC = () => {
             try {
                 await login(user, password);
             } catch (error) {
-                setLoginError(error);
+                console.log(error);
+                setLoginError(JSON.stringify(error));
                 setIsLoading(false);
             }
         }
     };
 
-    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         setLoginError('');
         setInput({
             ...input,
@@ -39,10 +41,8 @@ export const Login: React.FC = () => {
                 <input type="password" placeholder="password" name="password" autoComplete="password" onChange={handleInputChange}></input>
                 {(!isLoading && <button onClick={handleLogin}>Login</button>) || <button>...</button>}
             </form>
-            <div>Location</div>
-            <pre>{JSON.stringify(LocationStore.get().props)}</pre>
             <div>
-                <button onClick={() => LocationStore.get().setPath('/')}>back</button>
+                <button onClick={() => history.push('/')}>back</button>
             </div>
         </React.Fragment>
     );

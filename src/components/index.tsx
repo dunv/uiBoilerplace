@@ -1,29 +1,20 @@
+import { assignParams, parseParams } from 'dunv-tslocation';
 import * as React from 'react';
-import { LocationStore } from 'dunv-tslocation';
+import { useHistory } from 'react-router-dom';
 
 export const Index: React.FC = () => {
+    const history = useHistory();
+
     return (
         <div>
             <h2>Home</h2>
             <div>Location</div>
-            <pre>{JSON.stringify(LocationStore.get().props)}</pre>
+            <pre>{JSON.stringify(parseParams(history.location.search))}</pre>
             <div>
-                <button onClick={() => LocationStore.get().setPath('protected')}>go to protected</button>
-                <button onClick={() => LocationStore.get().setPathAndSetParam('protected', 'hello', 'world')}>
+                <button onClick={() => history.push('protected')}>go to protected</button>
+                <button onClick={() => history.push(`protected?${assignParams(history.location.search, { add: { hello: 'world' } })}`)}>
                     go to protected and setHelloWorld
                 </button>
-                <button onClick={() => LocationStore.get().setPathAndSetParams('protected', { hello1: 'world1', hello2: 'world2' })}>
-                    go to protected and setMultiple
-                </button>
-                <br />
-                <br />
-                <button onClick={() => console.log(LocationStore.get().getParams())}>getParams</button>
-                <button onClick={() => LocationStore.get().setParam('hello', 'world')}>setHelloWorld</button>
-                <button onClick={() => LocationStore.get().setParams({ hello1: 'world1', hello2: 'world2' })}>setMultiple</button>
-                <button onClick={() => LocationStore.get().unsetParam('hello')}>unsetHelloWorld</button>
-                <button onClick={() => LocationStore.get().unsetParams({ hello1: 'world1', hello2: 'world2' })}>unsetMultiple</button>
-                <br />
-                <br />
             </div>
         </div>
     );

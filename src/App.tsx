@@ -1,28 +1,38 @@
 import { AuthStore, WithAuth } from 'dunv-tsauth';
-import { LocationStore } from 'dunv-tslocation';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Route, Router } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './app.global.css';
+import { Index } from './components';
 import { ErrorBoundary } from './components/errorBoundary';
-import { initFontawesome } from './fontawesomeLib';
-import { GlobalStateProvider } from './GlobalStateProvider';
+import { GlobalStateProvider } from './components/globalStateProvider';
 import { Login } from './components/login';
-import { Protected } from './components/protected';
+import { initFontawesome } from './fontAwesomeLib';
 
 // Initialize icons
 initFontawesome();
 
+// this variable is set and injected at build-time
+// check envVars.js for more information
+declare const API_URL: string;
+
 // Initialize dunv-tsauth
-AuthStore.get().url = 'http://localhost:8080';
+AuthStore.get().url = API_URL;
+console.log('Using url', JSON.stringify(API_URL));
+
+// Create root-div to render react-components into
+const rootDiv = document.createElement('div');
+rootDiv.id = 'root';
+document.body.appendChild(rootDiv);
 
 ReactDOM.render(
     <GlobalStateProvider>
-        <Router history={LocationStore.get().history}>
+        <BrowserRouter>
             <ErrorBoundary>
-                <Route path="/" exact component={WithAuth(Protected, Login)} />
+                <Route path="/protected" exact component={WithAuth(Index, Login)} />
+                <Route path="/" exact component={Index} />
             </ErrorBoundary>
-        </Router>
+        </BrowserRouter>
     </GlobalStateProvider>,
-    document.getElementById('root')
+    rootDiv
 );
