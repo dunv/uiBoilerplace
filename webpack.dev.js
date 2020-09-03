@@ -8,6 +8,10 @@ const envVars = require('./src/envVars.js').development;
 module.exports = merge.smart(common, {
     mode: 'development',
     devtool: 'inline-source-map',
+    output: {
+        filename: 'app.js',
+        publicPath: '/',
+    },
     module: {
         rules: [
             {
